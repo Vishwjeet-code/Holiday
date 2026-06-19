@@ -1,0 +1,344 @@
+<div class="navigation">
+  <i class="pi pi-home"></i>
+  <span>Projects</span>
+
+  <i class="pi pi-angle-right separator"></i>
+
+  <i class="pi pi-building"></i>
+  <span>Real Estate Residential</span>
+
+  <i class="pi pi-angle-right separator"></i>
+
+  <span class="active">{{ selectedProjectName }}</span>
+</div>
+
+
+<div class="page-header">
+  <h1>Project Working Days</h1>
+</div>
+
+<div class="projectContainer">
+<div class="projectName">
+  <span class="active">Project: {{ selectedProjectName }}</span>
+
+</div>
+
+<div>
+
+
+  <!-- ==================== ADD DIALOG ==================== -->
+  <div class="flex flex-column align-items-center gap-3">
+    <p-dialog
+  [(visible)]="addVisible"
+  [modal]="true"
+  [style]="{ width: '60rem' }">
+
+  <ng-template pTemplate="header">
+    <span class="font-bold">
+      Add Project Working Days
+    </span>
+  </ng-template>
+
+  <div class="working-days-container">
+ <div class="working-row-header">
+    <span>Day</span>
+    <span>Working</span>
+    <span>Start Time</span>
+    <span>End Time</span>
+  </div>
+    <div
+      *ngFor="let row of workingDayList; let i = index"
+      class="working-row">
+ <div class="field-group">
+
+      <p-dropdown
+        [options]="allDays"
+        [(ngModel)]="row.dayId"
+        optionLabel="day"
+        optionValue="dayId"
+        placeholder="Select Day"
+        appendTo="body">
+      </p-dropdown>
+    </div>
+
+    <!-- Working Flag -->
+    <div class="field-group">
+
+      <p-dropdown
+        [options]="[
+          { label:'Yes', value:'Y' },
+          { label:'No', value:'N' }
+        ]"
+        [(ngModel)]="row.workingFlag"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select"
+        appendTo="body">
+      </p-dropdown>
+    </div>
+
+    <!-- Start Time -->
+    <div class="field-group">
+
+      <p-datepicker
+        [ngModel]="timeStringToDate(row.startTime)"
+        (ngModelChange)="row.startTime = $event"
+        [timeOnly]="true"
+        [showIcon]="true"
+        iconDisplay="input"
+        placeholder="Start Time"
+        appendTo="body">
+      </p-datepicker>
+    </div>
+
+    <!-- End Time -->
+    <div class="field-group">
+
+      <p-datepicker
+        [ngModel]="timeStringToDate(row.endTime)"
+        (ngModelChange)="row.endTime = $event"
+        [timeOnly]="true"
+        [showIcon]="true"
+        iconDisplay="input"
+        placeholder="End Time"
+        appendTo="body">
+      </p-datepicker>
+    </div>
+
+  </div>
+
+  </div>
+
+  <ng-template pTemplate="footer">
+
+    <p-button
+      label="Cancel"
+      severity="secondary"
+      (onClick)="addVisible = false">
+    </p-button>
+
+    <p-button
+      label="Save"
+      (onClick)="saveWorkingDays()">
+    </p-button>
+
+  </ng-template>
+
+</p-dialog>
+  </div>
+
+  <!-- ==================== COPY DIALOG (Global Holiday) ==================== -->
+
+
+  <!-- ==================== LOADER ==================== -->
+  <div *ngIf="isLoading" class="loader-overlay">
+    <p-progressSpinner
+      strokeWidth="4"
+      fill="transparent"
+      animationDuration=".8s"
+      [style]="{ width: '50px', height: '50px' }">
+    </p-progressSpinner>
+    <p style="margin-top: 10px; color: #1d3d8e; font-weight: 500;">Loading holidays...</p>
+  </div>
+
+  <!-- ==================== MAIN TABLE ==================== -->
+  <div class="card" *ngIf="isSubmitted && !isLoading">
+    <div class="table-container">
+      <p-table
+        #dt1
+        class="tbl-theme"
+        [value]="tableData"
+      [dataKey]="'dayId'"
+        [paginator]="tableData.length > 0"
+
+        [rows]="7"
+        [rowsPerPageOptions]="[7,10,20]"
+        [tableStyle]="{ 'min-width': '60rem' }"
+        [scrollable]="true"
+        scrollHeight="flex"
+        [globalFilterFields]="['date','day','holidays','comments']"
+         paginatorDropdownAppendTo="body">
+
+        <ng-template pTemplate="caption">
+          <div class="table-caption">
+            <p-iconfield iconPosition="left">
+              <p-inputicon>
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </p-inputicon>
+              <input
+                pInputText
+                type="text"
+                (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
+                placeholder="Global Search" />
+            </p-iconfield>
+
+            <div class="caption-buttons">
+              <!-- Show Save/Cancel when a row is being edited inline -->
+              <ng-container *ngIf="inlineEditingDateId !== null; else normalButtons">
+                <p-button
+                  label="Save"
+                  icon="pi pi-save"
+                  (onClick)="saveInlineEdit()">
+                </p-button>
+                <p-button
+                  label="Cancel"
+                  icon="pi pi-times"
+                  severity="secondary"
+                  [text]="true"
+                  (onClick)="cancelInlineEdit()">
+                </p-button>
+              </ng-container>
+
+              <ng-template #normalButtons>
+                <p-button
+                  label="Add"
+                  icon="fa-solid fa-circle-plus"
+                  [disabled]="tableData.length > 0"
+  [pTooltip]="tableData.length > 0 ? 'Working days already added for this project' : ''"
+  tooltipPosition="top"
+                  (onClick)="onAdd()">
+                </p-button>
+
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th>S.No</th>
+
+            <th>Day</th>
+            <th>Working Flag</th>
+<th>Start Time</th>
+<th>End Time</th>
+            <th *ngIf="inlineEditingDateId === null">Edit</th>
+          </tr>
+        </ng-template>
+
+        <ng-template
+  pTemplate="body"
+  let-row
+  let-rowIndex="rowIndex"
+  let-columns="columns">
+
+          <!-- ===== VIEW MODE ROW ===== -->
+          <ng-container *ngIf="!isInlineEditing(row)">
+            <tr>
+              <td>{{ rowIndex + 1 }}</td>
+
+              <td>{{ row.day }}</td>
+              <td>
+  <span
+    [ngClass]="{
+      'working-yes': row.workingFlag === 'Y',
+      'working-no': row.workingFlag === 'N'
+    }">
+
+    {{ row.workingFlag === 'Y'
+        ? 'Working'
+        : 'Non Working' }}
+
+  </span>
+</td>
+
+<td>
+  {{ row.startTime }}
+</td>
+
+<td>
+  {{ row.endTime }}
+</td>
+
+              <!-- IMPORTANT -->
+    <td *ngIf="inlineEditingDateId === null">
+
+      <p-button
+        label="Edit"
+        icon="fa-regular fa-pen-to-square"
+        [disabled]="isPastDate(row.date)"
+        (onClick)="onEdit(row)">
+      </p-button>
+
+    </td>
+            </tr>
+          </ng-container>
+
+          <!-- ===== INLINE EDIT MODE ROW ===== -->
+          <ng-container *ngIf="isInlineEditing(row)">
+
+<tr>
+
+  <td>{{ rowIndex + 1 }}</td>
+
+  <td>{{ row.day }}</td>
+
+  <!-- Working Flag -->
+  <td>
+
+    <p-dropdown
+      [options]="[
+        { label:'Working', value:'Y' },
+        { label:'Non Working', value:'N' }
+      ]"
+      [(ngModel)]="editingRowData.workingFlag"
+      optionLabel="label"
+      optionValue="value"
+      appendTo="body">
+
+    </p-dropdown>
+
+  </td>
+
+  <!-- Start Time -->
+  <td>
+
+    <p-datepicker
+      [(ngModel)]="editingRowData.startTime"
+      [timeOnly]="true"
+      [showIcon]="true"
+      iconDisplay="input"
+      appendTo="body">
+    </p-datepicker>
+
+  </td>
+
+  <!-- End Time -->
+  <td>
+
+    <p-datepicker
+      [(ngModel)]="editingRowData.endTime"
+      [timeOnly]="true"
+      [showIcon]="true"
+      iconDisplay="input"
+      appendTo="body">
+    </p-datepicker>
+
+  </td>
+
+</tr>
+
+</ng-container>
+
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="6">
+              <div class="empty-state">
+               <i class="pi pi-folder" style="font-size: 3rem;"></i>
+                <p class="empty-title">No Holidays Found</p>
+                <p class="empty-subtitle">
+                  No holidays linked to this project yet. Click
+                  <strong>Copy from Global Holiday</strong> to link holidays.
+                </p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+    </div>
+  </div>
+
+</div>

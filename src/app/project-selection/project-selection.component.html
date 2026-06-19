@@ -1,0 +1,64 @@
+<div class="card">
+
+  
+  <p-table
+    [value]="Projects"
+    [paginator]="true"
+    [rows]="5"
+    [rowsPerPageOptions]="[5,10,20]"
+    class="tbl-theme">
+
+    <!-- Caption -->
+    <ng-template pTemplate="caption">
+
+      <div class="table-caption">
+
+        <p-iconfield iconPosition="left">
+          <p-inputicon>
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </p-inputicon>
+
+          <input
+            pInputText
+            type="text"
+            placeholder="Search Project" />
+        </p-iconfield>
+
+      </div>
+
+    </ng-template>
+
+    <!-- Header -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Select</th>
+        <th>Project Name</th>
+
+      </tr>
+    </ng-template>
+
+    <!-- Body -->
+    <ng-template pTemplate="body" let-project>
+
+      <tr>
+
+        <td>
+          <p-radiobutton
+            name="project"
+            [value]="project"
+            [(ngModel)]="selectedProject"
+            (onClick)="onProjectSelect()">
+          </p-radiobutton>
+        </td>
+
+        <td>
+          {{ project.projectName }}
+        </td>
+
+      </tr>
+
+    </ng-template>
+
+  </p-table>
+
+</div>

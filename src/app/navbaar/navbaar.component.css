@@ -1,0 +1,97 @@
+:host {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== TOOLBAR ===== */
+:host ::ng-deep .p-toolbar {
+  margin: 0 !important;
+  padding: 0 16px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  width: 100% !important;
+  height: 56px !important;
+  box-sizing: border-box !important;
+  background: linear-gradient(135deg, #1e2a4a 0%, #2a3a6b 40%, #1a2550 100%);
+}
+
+:host ::ng-deep .p-toolbar * {
+  color: #fff !important;
+}
+
+/* ===== NAV START ===== */
+:host ::ng-deep .nav-start {
+  padding-left: 100px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ===== PLAIN BUTTONS ===== */
+:host ::ng-deep .nav-start .p-button {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  font-weight: 400 !important;
+}
+
+/* ===== ACTIVE BUTTON ===== */
+:host ::ng-deep .active-btn .p-button {
+  background: linear-gradient(to bottom, #f7a156, #f79d3c) !important;
+  color: #000 !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+}
+
+:host ::ng-deep .active-btn .p-button .p-button-label {
+  color: #000 !important;
+}
+
+/* ===== END SECTION ===== */
+:host ::ng-deep .end-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ===== CLIENT PILL ===== */
+:host ::ng-deep .client {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+}
+
+:host ::ng-deep .client i {
+  font-size: 14px;
+  color: #fff !important;
+}
+
+/* ===== AVATAR ===== */
+:host ::ng-deep .p-avatar {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* ===== CARD2 ===== */
+:host ::ng-deep .card2 {
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}

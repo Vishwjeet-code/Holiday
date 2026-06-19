@@ -1,0 +1,22 @@
+<p-toolbar class="card2">
+    <ng-template #start>
+        <div class="nav-start">
+            <p-button label="Admin Screen" [ngClass]="{ 'active-btn': selectedTab === 'admin' }" (click)="selectedTab = 'admin'"/>
+     
+        </div>
+    </ng-template>
+
+    <ng-template #end>
+        <div class="end-section">
+            <div class="client">
+                <i class="fa-solid fa-building-user"></i>
+                <span>SilverOk</span>
+            </div>
+            <p-avatar
+                image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                shape="circle"
+                size="large"
+            />
+        </div>
+    </ng-template>
+</p-toolbar>

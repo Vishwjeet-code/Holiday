@@ -1,0 +1,71 @@
+<div class="card" >
+  <p-drawer  #drawerRef [(visible)]="visible" appendTo="self" >
+    <ng-template #headless>
+        <div class="flex flex-col h-full">
+            <div class="flex items-center justify-between px-6 pt-4 shrink-0">
+                <span class="inline-flex items-center gap-2">
+
+                    <span class="logo">
+                       <img src="assets/Screenshot 2026-03-23 144839-Photoroom.png" />
+                    </span>
+                </span>
+
+            </div>
+
+            <div>
+            <div class="overflow-y-auto">
+
+
+              <div
+  class="menu-item"
+  routerLink="/projectselection"
+  routerLinkActive="active-btn"
+>
+  <i class="fa-solid fa-screwdriver-wrench"></i>
+  <span>project Selection</span>
+</div>
+
+                        <div
+  class="menu-item"
+  routerLink="/globalholiday"
+  routerLinkActive="active-btn"
+>
+  <i class="fa-regular fa-calendar-minus"></i>
+  <span>Global Holiday</span>
+
+</div>
+                      <div
+  class="menu-item"
+  routerLink="/projectholiday"
+  routerLinkActive="active-btn"
+>
+  <i class="fa-regular fa-calendar-minus"></i>
+  <span>Project Holiday</span>
+</div>
+
+                     <div
+  class="menu-item"
+  routerLink="/ProjectWorkingDay"
+  routerLinkActive="active-btn"
+>
+  <i class="fa-regular fa-calendar-days"></i>
+  <span>Project Working Day</span>
+</div>
+
+  <div
+  class="menu-item"
+  routerLink="/Projectmpp"
+  routerLinkActive="active-btn"
+>
+  <i class="fa-regular fa-calendar-days"></i>
+  <span>projectmpp</span>
+</div>
+
+
+           </div>
+            </div>
+
+        </div>
+    </ng-template>
+   </p-drawer>
+</div>

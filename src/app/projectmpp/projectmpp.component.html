@@ -1,0 +1,89 @@
+<div class="upload-bar">
+    <input
+        type="file"
+        #fileInput
+        accept=".mpp"
+        (change)="onFileSelected($event)"
+        style="display:none">
+
+    <button
+        pButton
+        type="button"
+        label="Upload MPP File"
+        icon="pi pi-upload"
+        (click)="fileInput.click()">
+    </button>
+
+    <span *ngIf="selectedFile" class="ml-2">
+        {{ selectedFile.name }}
+    </span>
+
+    <button
+        *ngIf="selectedFile"
+        pButton
+        type="button"
+        label="Import"
+        icon="pi pi-check"
+        class="ml-2"
+        (click)="uploadFile()">
+    </button>
+</div>
+<p-treeTable
+    [value]="treeData">
+
+    <ng-template
+        pTemplate="header">
+
+        <tr>
+            <th>Name</th>
+            <th>Duration</th>
+            <th>Start</th>
+            <th>Finish</th>
+        </tr>
+
+    </ng-template>
+
+    <ng-template
+        pTemplate="body"
+        let-rowNode
+        let-rowData="rowData">
+
+        <tr>
+
+            <td>
+                <p-treeTableToggler
+                    [rowNode]="rowNode">
+                </p-treeTableToggler>
+
+                {{ rowData.taskName }}
+            </td>
+
+            <td>
+                {{ rowData.duration }}
+            </td>
+
+            <td>
+                {{ rowData.startDate }}
+            </td>
+
+            <td>
+                {{ rowData.finishDate }}
+            </td>
+
+        </tr>
+
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+    <tr>
+        <td colspan="4" class="empty-state">
+            <div class="empty-state-content">
+                <i class="pi pi-folder-open empty-icon"></i>
+                <div class="empty-title">No Tasks Found</div>
+                <div class="empty-subtitle">
+                    No tasks imported yet. Click <strong>Upload MPP File</strong> to get started.
+                </div>
+            </div>
+        </td>
+    </tr>
+</ng-template>
+</p-treeTable>

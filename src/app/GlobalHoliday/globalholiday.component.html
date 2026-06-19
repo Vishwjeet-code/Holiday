@@ -1,0 +1,373 @@
+<div class="navigation">
+  <i class="pi pi-home"></i>
+  <span>Projects</span>
+
+  <i class="pi pi-angle-right separator"></i>
+
+  <i class="pi pi-building"></i>
+  <span>Real Estate Residential</span>
+
+  <i class="pi pi-angle-right separator"></i>
+
+  <span class="active">{{ selectedProjectName }}</span>
+</div>
+
+
+
+<div class="page-header">
+  <h1>Global Holiday</h1>
+</div>
+
+
+
+<div>
+  <div class="top-center-container">
+    <div class="top-row">
+
+      <input pInputText [value]="selectedCountryName" disabled class="w-full md:w-20" />
+
+      <p-autocomplete
+        [(ngModel)]="selectedYear"
+        [dropdown]="true"
+        [suggestions]="filteredYears"
+        (completeMethod)="searchYear($event)"
+        field="year"
+        placeholder="Search Year"
+        (onSelect)="onYearSelect()"
+        class="w-20 md:w-20">
+      </p-autocomplete>
+    </div>
+  </div>
+
+  <!-- ==================== COPY DIALOG ==================== -->
+  <p-dialog
+    header="Select Holidays to Copy"
+    [(visible)]="copyDialogVisible"
+    [modal]="true"
+    [style]="{width: '650px'}">
+
+    <table class="copy-table">
+      <thead>
+        <tr class="copy-thead-row">
+          <th class="copy-th checkbox-col">
+            <p-checkbox
+              [(ngModel)]="selectAllChecked"
+              (onChange)="toggleSelectAll($event)"
+              binary="true"
+              [disabled]="isAllCopied">
+            </p-checkbox>
+          </th>
+          <th class="copy-th">Date</th>
+          <th class="copy-th">Day</th>
+          <th class="copy-th">Holiday</th>
+          <th class="copy-th">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of copyTableData" class="copy-holiday-row">
+          <td class="copy-td">
+            <p-checkbox
+              binary="true"
+              [(ngModel)]="row.allSelected"
+              [disabled]="isRowAllCopied(row)"
+              (onChange)="toggleRowSelect(row, $event)">
+            </p-checkbox>
+          </td>
+          <td class="copy-td">{{ row.date | date:'dd-MMM-yyyy' }}</td>
+          <td class="copy-td">{{ row.day }}</td>
+          <td class="copy-td">
+            <div *ngFor="let holiday of row.holidays"
+                 style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <p-checkbox
+                binary="true"
+                [(ngModel)]="holiday.selected"
+                [disabled]="holiday.isCopied"
+                (onChange)="updateSelectAllState()">
+              </p-checkbox>
+              <span>{{ holiday.holidayName }}</span>
+            </div>
+          </td>
+          <td class="copy-td">
+            <div *ngFor="let holiday of row.holidays"
+                 style="min-height:28px; display:flex; align-items:center;">
+              <span *ngIf="holiday.isCopied" class="copied-badge">Copied</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template pTemplate="footer">
+      <p-button label="Cancel" severity="secondary" (onClick)="copyDialogVisible = false"></p-button>
+      <p-button label="Copy Selected" icon="pi pi-check" (onClick)="copySelectedHolidays()"></p-button>
+    </ng-template>
+  </p-dialog>
+
+
+  <!-- ==================== ADD DIALOG ==================== -->
+  <div class="flex flex-column align-items-center gap-3">
+    <p-dialog [(visible)]="addVisible" [modal]="true" [style]="{ width: '35rem', height: 'auto', maxHeight: '90vh' }">
+
+      <ng-template pTemplate="header">
+        <div class="dialog-header">
+          <span class="font-bold">Add Holiday</span>
+        </div>
+      </ng-template>
+
+      <div class="dialog-content">
+        <div *ngFor="let dateEntry of dateHolidayList; let di = index" class="date-group">
+
+          <div class="form-row">
+            <label>Date {{ dateHolidayList.length > 1 ? (di + 1) : '' }}</label>
+            <p-datepicker
+              [(ngModel)]="dateEntry.date"
+              (onSelect)="onDateSelectForIndex(di)"
+              placeholder="Select Date"
+              appendTo="body"
+              [minDate]="minDate"
+              [maxDate]="maxDate"
+              [defaultDate]="minDate"
+              dateFormat="dd/mm/yy"
+              [showIcon]="true"
+              inputId="icondisplay"
+              iconDisplay="input">
+            </p-datepicker>
+
+            <p-button
+              *ngIf="dateHolidayList.length > 1"
+              icon="fa-solid fa-minus"
+              severity="danger"
+              [text]="true"
+              (onClick)="removeDate(di)">
+            </p-button>
+          </div>
+
+          <div *ngFor="let holiday of dateEntry.holidays; let hi = index" class="form-row">
+            <label>{{ hi === 0 ? 'Holiday' : '' }}</label>
+            <input
+              pInputText
+              [(ngModel)]="holiday.holidayName"
+              placeholder="Enter holiday name"
+              style="flex: 1" />
+
+            <p-button
+              *ngIf="dateEntry.holidays.length > 1"
+              icon="fa-solid fa-minus"
+              severity="danger"
+              [text]="true"
+              styleClass="remove-btn"
+              (onClick)="removeHoliday(di, hi)">
+            </p-button>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end;">
+            <span class="add-link" (click)="addAnotherHoliday(di)">+ Add Another Holiday Name</span>
+          </div>
+
+          <div class="form-row">
+            <label>Comment</label>
+            <input pInputText [(ngModel)]="dateEntry.comment" placeholder="Enter comment" [readOnly]="dateEntry.disabled"/>
+          </div>
+
+          <hr *ngIf="dateHolidayList.length > 1" style="border-color: #f0d5c0; margin: 8px 0;" />
+        </div>
+
+        <div class="form-row">
+          <label></label>
+          <span class="add-link" (click)="addAnotherDate()">+ Add Another Date</span>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <div class="dialog-footer">
+          <p-button label="Cancel" [text]="true" (onClick)="addVisible = false" />
+          <p-button
+            label="Save"
+            [disabled]="dateHolidayList[0].dateId === null || dateHolidayList[0].holidays[0].holidayName === ''"
+            (onClick)="saveHoliday()" />
+        </div>
+      </ng-template>
+    </p-dialog>
+  </div>
+
+
+  <!-- ==================== TABLE ==================== -->
+  <div class="card" *ngIf="isSubmitted && !isLoading">
+    <div class="table-container">
+      <p-table
+        #dt1
+        class="tbl-theme"
+        [value]="tableData"
+        [paginator]="tableData.length > 0"
+        [rows]="5"
+        [rowsPerPageOptions]="[5,10,20]"
+        [tableStyle]="{ 'min-width': '60rem' }"
+        [scrollable]="true"
+        scrollHeight="flex"
+        [globalFilterFields]="['date','day','holidays','comments']"
+        paginatorDropdownAppendTo="body">
+
+        <ng-template pTemplate="caption">
+          <div class="table-caption">
+            <p-iconfield iconPosition="left">
+              <p-inputicon>
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </p-inputicon>
+              <input
+                pInputText
+                type="text"
+                (input)="dt1.filterGlobal($any($event.target).value, 'contains')"
+                placeholder="Global Search" />
+            </p-iconfield>
+
+            <div class="caption-buttons">
+              <!-- Show Save/Cancel when a row is being edited inline -->
+              <ng-container *ngIf="inlineEditingDateId !== null; else normalButtons">
+                <p-button
+                  label="Save"
+                  icon="pi pi-save"
+                  (onClick)="saveInlineEdit()">
+                </p-button>
+                <p-button
+                  label="Cancel"
+                  icon="pi pi-times"
+                  severity="secondary"
+                  [text]="true"
+                  (onClick)="cancelInlineEdit()">
+                </p-button>
+              </ng-container>
+
+              <ng-template #normalButtons>
+                <p-button
+                  label="Add"
+                  icon="fa-solid fa-circle-plus"
+                  (onClick)="onAdd()">
+                </p-button>
+                <button
+                  pButton
+                  label="Copy Holidays"
+                  icon="pi pi-copy"
+                  (click)="openCopyDialog()">
+                </button>
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th>S.No</th>
+            <th>Date</th>
+            <th>Day</th>
+            <th>Holidays</th>
+            <th>Comment</th>
+            <th *ngIf="inlineEditingDateId === null">Edit</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+
+          <!-- ===== VIEW MODE ROW ===== -->
+          <ng-container *ngIf="!isInlineEditing(row)">
+            <tr>
+              <td>{{ rowIndex + 1 }}</td>
+              <td>{{ (row.date | date:'dd-MMM-yyyy')?.toUpperCase() }}</td>
+              <td>{{ row.day }}</td>
+              <td>{{ row.holidays }}</td>
+              <td>{{ row.comments }}</td>
+             <td *ngIf="inlineEditingDateId === null">
+        <p-button
+          label="Edit"
+          icon="fa-regular fa-pen-to-square"
+          [disabled]="isPastDate(row.date)"
+
+          (onClick)="onEdit(row)">
+        </p-button>
+      </td>
+          </ng-container>
+
+          <!-- ===== INLINE EDIT MODE ROW ===== -->
+          <ng-container *ngIf="isInlineEditing(row)">
+
+            <!-- One <tr> per holiday entry so each holiday + date pair is on its own line -->
+            <tr
+              *ngFor="let holiday of inlineEditData.holidays; let hi = index"
+              class="inline-edit-row">
+
+              <!-- S.No: show rowIndex+1 only for first holiday of this date -->
+              <td>
+                <span *ngIf="hi === 0">{{ rowIndex + 1 }}</span>
+              </td>
+
+              <!-- DATE (editable per holiday so user can reassign) -->
+              <td class="inline-edit-td">
+                <p-datepicker
+                  [(ngModel)]="holiday.dateObj"
+                  (onSelect)="onInlineDateChange(hi)"
+                  placeholder="Select Date"
+                  appendTo="body"
+                  [minDate]="minDate"
+                  [maxDate]="maxDate"
+                  dateFormat="dd/mm/yy"
+                  [showIcon]="true"
+                  iconDisplay="input"
+                  >
+                </p-datepicker>
+              </td>
+
+              <!-- DAY (auto-derived from selected date; read-only display) -->
+              <td>
+                {{ holiday.dateObj | date:'EEEE' | uppercase }}
+              </td>
+
+              <!-- HOLIDAY NAME (editable) -->
+              <td class="inline-edit-td">
+                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                  <input
+                    pInputText
+                    [(ngModel)]="holiday.holidayName"
+                    placeholder="Holiday name"
+                    class="inline-input" />
+
+
+
+                </div>
+              </td>
+
+              <!-- COMMENT (editable, shared across all holidays in this date group; show only on first row) -->
+              <td class="inline-edit-td">
+                <input
+                  *ngIf="hi === 0"
+                  pInputText
+                  [(ngModel)]="inlineEditData.comment"
+                  placeholder="Enter comment"
+                  class="inline-input" />
+              </td>
+
+              <!-- Empty edit column (buttons are in caption bar) -->
+
+            </tr>
+
+          </ng-container>
+
+        </ng-template>
+
+        <!-- ==================== EMPTY STATE ==================== -->
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="6">
+              <div class="empty-state">
+
+               <i class="pi pi-folder" style="font-size: 3rem;"></i>
+                <p class="empty-title">No Holidays Found</p>
+                <p class="empty-subtitle">No holiday records exist for the selected year. Click <strong>Add</strong> to create one.</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+    </div>
+  </div>
+
+</div>

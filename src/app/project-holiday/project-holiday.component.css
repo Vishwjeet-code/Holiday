@@ -1,0 +1,684 @@
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.navigation i {
+   color: #b2b0b0;
+  font-size: 0.85rem;
+}
+
+.navigation .separator {
+  color: #bbb;
+}
+
+.navigation .active {
+  font-weight: 600;
+  color: #333;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 3px 12px;
+}
+.projectName .active {
+  font-weight: 600;
+  color: #333;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 3px 12px;
+}
+
+
+h1 {
+  display: flex;
+  font-size: 1.5rem;
+    font-weight: 800 !important;
+  letter-spacing: -.03em;
+  font-family: sans-serif ;
+  margin-top: -10px;
+  unicode-bidi: isolate;
+}
+
+.page-header {
+   margin-top: 15px;
+  position: relative;
+  display: inline-block;
+}
+
+.page-header:after {
+  content: "";
+  position: absolute;
+margin-top: -13px;
+  left: 0;
+  width: 6rem;
+  height: 3px;
+  background: linear-gradient(90deg, #eb8918 0%, transparent 100%);
+}
+
+.top-center-container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+}
+.caption-buttons {
+  display: flex;
+  gap: 10px;  /* ✅ padding between buttons */
+  align-items: center;
+}
+:host ::ng-deep .card{
+padding-top: 8px;
+
+
+
+}
+:host::ng-deep .p-button{
+
+ background:linear-gradient(135deg, #1e2a4a 0%, #2a3a6b 40%, #1a2550 100%) !important;
+ border-color: #1e2a4a !important;
+ font-size: 0.8rem;
+ display: inline-flex;
+ box-shadow: 0 3px 12px #1e2a4a59, inset 0 1px #ffffff1a;
+ padding: 6px 14px !important;     /* ✅ Reduce padding */
+  height: 32px !important;          /* ✅ Fix height */
+  min-width: unset !important;      /* ✅ Remove min-width */
+  font-size: 0.78rem !important;
+
+
+}
+:host ::ng-deep .p-button:hover {
+  background: linear-gradient(135deg, #2a3a6b 0%, #3a4a8b 40%, #2a3560 100%) !important;
+  border-color: #2a3a6b !important;
+}
+:host ::ng-deep .p-button-text {
+    background: transparent;
+    border-color: transparent;
+    color: #ffffff;
+}
+:host ::ng-deep .p-button-text:hover {
+    background: transparent;
+    border-color: transparent;
+    color: #ffffff !important;
+}
+
+.top-row {
+  display: flex;
+  gap: 10px;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+}
+
+.fixed-input {
+  width: 120px;
+}
+.table-header {
+  display: flex;
+  justify-content: flex-end;   /* right side */
+  margin-bottom: 10px;
+}
+.dialog-header {
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dialog-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-row label {
+  width: 120px;        /* 🔥 fixed label width = alignment */
+  font-weight: 500;
+}
+
+.form-row input,
+.form-row p-datepicker {
+  flex: 1;             /* 🔥 input takes remaining space */
+}
+
+.form-row.column {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+:host::ng-deep .table-container {
+
+  overflow-x: auto;
+  height: fit-content;  /* 🔥 horizontal scroll instead of overflow */
+}
+:host ::ng-deep .table-caption {
+  display: flex;
+  justify-content: space-between; /* 🔥 pushes items left & right */
+  align-items: center;
+  width: 100%;
+}
+:host::ng-deep .p-datatable-header {
+    background: #f4f4f4;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+:host::ng-deep .p-inputtext {
+  border-radius: 50px;
+}
+:host::ng-deep .p-button-secondary {
+
+    color: #ffffff !important;
+}
+
+
+:host ::ng-deep .tbl-theme .p-datatable-thead > tr > th {
+  background: linear-gradient(to bottom, #ffad7c, #f79256) !important;
+  color: #000000 !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.149) !important;
+  border-bottom: 2px solid #e8622a !important;
+  font-family: sans-serif;
+  text-align: center !important;
+  font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    padding: 10px 14px !important;
+}
+
+  /* ===== ODD ROWS ===== */
+ :host::ng-deep .tbl-theme .p-datatable-tbody > tr:nth-child(odd) {
+    background-color: #ebebc1 !important;
+    color: #000000 !important;
+
+
+  }
+
+  /* ===== EVEN ROWS ===== */
+   :host::ng-deep .tbl-theme .p-datatable-tbody > tr:nth-child(even) {
+    background-color:  #dbe79f
+!important;
+    color: #000000 !important;
+
+  }
+
+  :host ::ng-deep .tbl-theme .p-datatable-tbody > tr > td {
+  border-right: 1px solid rgba(0, 0, 0, 0.071) !important;
+     padding: 5px 14px !important;       /* ✅ Reduce vertical padding (was 9px) */
+  font-size: 13px !important;         /* ✅ Slightly smaller text */
+  line-height: 1.2 !important;        /* ✅ Tighter line height */
+  font-weight: 500;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+
+}
+
+  /* ===== ROW HOVER ===== */
+ :host::ng-deep .tbl-theme .p-datatable-tbody > tr:hover {
+    background-color: #eae4a7  !important;
+  }
+
+  /* ===== CELLS ===== */
+
+
+  /* ===== PAGINATOR ===== */
+:host::ng-deep .tbl-theme .p-paginator {
+     background:linear-gradient(to bottom, #ffad7c, #f79256) !important;
+
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+        padding: 8px 20px !important;
+  }
+
+  /* ===== EDIT BUTTON ===== */
+
+:host::ng-deep .p-paginator-page.p-paginator-page-selected {
+    background: #2d2010cc;
+    color:white;
+}
+:host::ng-deep .p-select {
+    display: inline-flex;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+}
+
+
+.date-group {
+  border: 1px solid #f0d5c0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #fff8f4;
+}
+.add-link {
+  color: #2a3a6b;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.add-link:hover {
+  text-decoration: underline;
+  color: #1e2a4a;
+}
+/* ==================== EMPTY STATE ==================== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 12px;
+  color: #aaa;
+}
+
+.empty-state i {
+  opacity: 0.4;
+}
+
+.empty-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #999;
+  margin: 0;
+}
+
+.empty-subtitle {
+  font-size: 0.9rem;
+  color: #bbb;
+  margin: 0;
+  text-align: center;
+}
+/* ===== ADD DIALOG OVERRIDES ===== */
+
+/* Stack label above input */
+:host ::ng-deep p-dialog .dialog-content .form-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+:host ::ng-deep p-dialog .dialog-content .form-row label {
+  width: auto;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Fix pill shape - override global p-inputtext border-radius inside dialog only */
+:host ::ng-deep p-dialog .p-inputtext {
+  border-radius: 8px !important;
+  height: 50px;
+  padding: 10px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+}
+
+:host ::ng-deep p-dialog .p-inputtext:focus {
+  border-color: #1e2a4a !important;
+  box-shadow: 0 0 0 3px rgba(30, 42, 74, 0.1) !important;
+}
+
+:host ::ng-deep p-dialog .p-inputtext[readonly] {
+  background: #f3f4f6 !important;
+  color: #9ca3af !important;
+  cursor: not-allowed;
+}
+
+/* Fix datepicker width inside dialog */
+:host ::ng-deep p-dialog p-datepicker {
+  width: 100%;
+}
+
+:host ::ng-deep p-dialog p-datepicker .p-datepicker-input {
+  border-radius: 8px !important;
+  width: 100%;
+  height: 38px;
+}
+
+/* Date group card - keep your warm color but improve spacing */
+:host ::ng-deep p-dialog .date-group {
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;   /* ✅ space between each field inside the group */
+}
+
+/* Remove the gap from form-row since date-group gap handles it */
+
+
+/* Add holiday / Add another date links */
+:host ::ng-deep p-dialog .add-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e2a4a;
+  margin-top: 2px;
+
+}
+:host ::ng-deep .remove-btn.p-button {
+
+  border: none !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+  padding: 0 4px !important;
+  width: auto !important;
+  min-width: unset !important;
+  height: auto !important;
+}
+
+:host ::ng-deep .remove-btn.p-button:hover {
+
+  color: #c0392b !important;
+}
+
+:host ::ng-deep .remove-btn .p-button-icon {
+  font-size: 15px !important;
+}
+:host ::ng-deep .card{
+padding-top: 8px;
+
+}
+
+.loader-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+
+}
+
+:host::ng-deep .p-progressspinner-circle {
+  stroke: #1d3d8e !important;
+  animation: p-progressspinner-dash 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite !important;
+}
+
+input[readonly] {
+  background-color: #e9e9e9 !important;
+  color: #888 !important;
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+  pointer-events: none;
+}
+
+.projectName {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.name{
+   text-align: center;
+}
+.top-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+}
+/* ==================== COPY DIALOG TABLE ==================== */
+.copy-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.copy-thead-row {
+  background: linear-gradient(to bottom, #ffad7c, #f79256);
+}
+
+.copy-th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 700;
+  color: #000000;
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 2px solid #e8622a;
+}
+
+.copy-th.checkbox-col {
+  width: 50px;
+}
+
+.copy-date-row {
+  background-color: #1e2a4a;
+}
+
+.copy-date-cell {
+  padding: 8px 16px;
+  color: #ffffff;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+}
+
+.copy-holiday-row:nth-child(odd) {
+  background-color: #ebebc1;
+}
+
+.copy-holiday-row:nth-child(even) {
+  background-color: #dbe79f;
+}
+
+.copy-holiday-row:hover {
+  background-color: #eae4a7 !important;
+}
+
+.copy-td {
+  padding: 10px 16px;
+  font-size: 13.44px;
+  font-weight: 500;
+  border-right: 1px solid rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.copied-badge {
+  background-color: #e8622a;
+  color: #ffffff;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+/* =========================
+   DIALOG
+========================= */
+
+:host ::ng-deep .p-dialog {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+:host ::ng-deep .p-dialog-header {
+  padding: 1.5rem 1.8rem;
+  border-bottom: 1px solid #ececec;
+}
+
+:host ::ng-deep .p-dialog-content {
+  padding: 1.5rem 1.8rem;
+  background: #f8fafc;
+}
+
+:host ::ng-deep .p-dialog-footer {
+  padding: 1rem 1.8rem 1.5rem;
+  border-top: 1px solid #ececec;
+  background: #ffffff;
+}
+
+/* =========================
+   GROUP CARD
+========================= */
+
+
+
+/* =========================
+   DATE HEADER
+========================= */
+
+.group-date-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 22px;
+
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.group-date-header i {
+  font-size: 18px;
+  color: #2563eb;
+}
+
+/* =========================
+   HOLIDAY ROW
+========================= */
+
+.holiday-row {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 18px;
+
+  margin-bottom: 18px;
+  align-items: end;
+}
+
+/* =========================
+   FIELD
+========================= */
+
+.holiday-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.holiday-field label,
+.comment-section label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+:host ::ng-deep .holiday-field input,
+:host ::ng-deep .comment-section input,
+:host ::ng-deep .p-datepicker input {
+  width: 100%;
+  height: 38px;
+
+  border-radius: 12px;
+  font-size: 15px;
+
+  padding: 0 14px;
+}
+
+/* =========================
+   COMMENT
+========================= */
+
+.comment-section {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  margin-top: 8px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+:host ::ng-deep .p-button {
+  border-radius: 12px;
+  padding: 0.7rem 1.3rem;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+.dialog-content {
+  max-height: 68vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media screen and (max-width: 768px) {
+
+  .holiday-row {
+    grid-template-columns: 1fr;
+  }
+
+  .group-date-header {
+    font-size: 18px;
+  }
+
+  :host ::ng-deep .p-dialog {
+    width: 95vw !important;
+  }
+
+}
+
+:host::ng-deep .p-inputtext {
+    border-radius: 12px;
+    font-size: unset;
+}
+.empty-state i {
+  font-size: 3rem !important;
+}
